@@ -3,13 +3,26 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-    <div class="row p-4 text-bg-secondary">
-        <h1 class="col-12 col-sm-6">Ejemplo PokéAPI</h1>
-    </div>
+    <nav class="row navbar navbar-expand p-4 text-bg-secondary">
+        <div class="container-fluid">
+            <h1>
+                <RouterLink class="nav-link text-bg-secondary" :to="{ name: 'home' }">Ejemplo PokéAPI</RouterLink>
+            </h1>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav m-0 align-items-center ms-auto">
+                    <li class="nav-item">
+                        <RouterLink class="nav-link text-bg-secondary" :to="{ name: 'home' }">Home</RouterLink>
+                    </li>
+                    <li class="nav-item mx-2">|</li>
+                    <li class="nav-item">
+                        <RouterLink class="nav-link text-bg-secondary" :to="{ name: 'pokemon' }">Pokemon</RouterLink>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <main class="p-4">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/pokemon">Pokemon</RouterLink>
         <RouterView/>
     </main>
 

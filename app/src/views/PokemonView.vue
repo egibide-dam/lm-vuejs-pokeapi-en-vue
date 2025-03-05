@@ -2,7 +2,7 @@
 import { onBeforeMount, reactive, ref, watch } from "vue";
 import axios from "axios";
 
-const api_url = 'ht tps://pokeapi.co/api/v2/';
+const api_url = 'https://pokeapi.co/api/v2/';
 const api_endpoint = 'pokemon';
 
 const id = ref(25);
@@ -66,7 +66,7 @@ watch(id, () => {
 </script>
 
 <template>
-    <div class="col-12 col-sm-6 d-flex justify-content-end align-items-center">
+    <div class="col-12 col-sm-6">
         <span class="me-2">ポケモン ID:</span>
         <button title="Anterior"
                 id="boton_menos"

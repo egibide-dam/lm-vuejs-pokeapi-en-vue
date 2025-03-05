@@ -5,3 +5,7 @@ $secondary: #3d4d59;
 @import "bootstrap/scss/bootstrap";
 
 @import "bootstrap-icons/font/bootstrap-icons.min.css";
+
+.nav-link:hover {
+    text-decoration: underline;
+}
