@@ -1,0 +1,58 @@
+name: Deploy de una aplicación Vue en GitHub Pages
+
+defaults:
+  run:
+    working-directory: ./app
+
+on:
+  # La acción se ejecuta al hacer push a la rama master
+  push:
+    branches: [ "master" ]
+
+  # Permitir lanzar este workflow desde la pestaña Actions de GitHub
+  workflow_dispatch:
+
+# Establecer los permisos del GITHUB_TOKEN para permitir el despliegue en GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Permitir un solo despliegue concurrente, pero sin cancelar el que ya esté en curso
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+      - name: Instalar Node.js, versión LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Instalar los paquetes y construir la aplicación
+        run: |
+          npm ci
+          npm run build
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Construir el sitio web con Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./dist/
+          destination: ./_site
+      - name: Cargar los artefactos producidos
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar en GitHub Pages
+        uses: actions/deploy-pages@v4
