@@ -5,7 +5,7 @@ import axios from "axios";
 const api_url = 'https://pokeapi.co/api/v2/';
 const api_endpoint = 'pokemon';
 
-const id = ref(1025);
+const id = ref(1);
 
 const pokemon = reactive({
     id: -1,

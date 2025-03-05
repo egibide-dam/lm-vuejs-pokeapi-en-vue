@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <nav class="row navbar navbar-expand p-4 text-bg-secondary">
         <div class="container-fluid">
             <h1>
-                <RouterLink class="nav-link text-bg-secondary" :to="{ name: 'home' }">Ejemplo PokéAPI</RouterLink>
+                <RouterLink class="nav-link text-bg-secondary" :to="{ name: 'home' }">PokéAPI en Vue</RouterLink>
             </h1>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav m-0 align-items-center ms-auto">
@@ -15,7 +15,7 @@ import { RouterLink, RouterView } from 'vue-router'
                     </li>
                     <li class="nav-item mx-2">|</li>
                     <li class="nav-item">
-                        <RouterLink class="nav-link text-bg-secondary" :to="{ name: 'pokemon' }">Pokemon</RouterLink>
+                        <RouterLink class="nav-link text-bg-secondary" :to="{ name: 'pokemon' }">Pokémon</RouterLink>
                     </li>
                 </ul>
             </div>
@@ -31,7 +31,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <span class="text-secondary">
             <i class="bi bi-github me-2"></i>
             <a class="link link-secondary small link-underline-opacity-0 link-underline-opacity-100-hover"
-               href="https://github.com/egibide-dam/pokeapi-fetch">Código fuente disponible en GitHub.</a>
+               href="https://github.com/egibide-dam/lm-vuejs-pokeapi-en-vue">Código fuente disponible en GitHub.</a>
         </span>
         </div>
     </footer>
