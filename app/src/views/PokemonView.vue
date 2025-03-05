@@ -1,5 +1,6 @@
 <script setup>
 import { onBeforeMount, reactive, ref, watch } from "vue";
+import axios from "axios";
 
 const api_url = 'https://pokeapi.co/api/v2/';
 const api_endpoint = 'pokemon';
@@ -17,6 +18,23 @@ const pokemon = reactive({
 // let alert = document.getElementById('error');
 
 function cargarDatos() {
+
+    const options = {
+        method: 'GET',
+        url: api_url + api_endpoint + '/' + id.value
+    };
+
+    axios.request(options)
+        .then(response => response.data)
+        .then(datos => {
+            pokemon.id = id;
+            pokemon.nombre = datos.name;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+/*
     fetch(api_url + api_endpoint + '/' + id.value)
         .then(response => response.json())
         .then(datos => {
@@ -38,6 +56,7 @@ function cargarDatos() {
             // alert.textContent = error;
             // alert.classList.remove('d-none');
         });
+*/
 }
 
 function filaTabla(titulo, contenido) {
