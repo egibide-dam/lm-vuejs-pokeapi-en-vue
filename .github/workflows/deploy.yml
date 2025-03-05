@@ -42,10 +42,12 @@ jobs:
       - name: Construir el sitio web con Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./dist/
-          destination: ./_site
+          source: ./app/dist/
+          destination: ./app/_site
       - name: Cargar los artefactos producidos
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./app/_site
 
   deploy:
     runs-on: ubuntu-latest
