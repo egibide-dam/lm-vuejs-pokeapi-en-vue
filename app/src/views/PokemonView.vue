@@ -2,7 +2,7 @@
 import { onBeforeMount, reactive, ref, watch } from "vue";
 import axios from "axios";
 
-const api_url = 'https://pokeapi.co/api/v2/';
+const api_url = 'ht tps://pokeapi.co/api/v2/';
 const api_endpoint = 'pokemon';
 
 const id = ref(25);
@@ -10,12 +10,13 @@ const id = ref(25);
 const pokemon = reactive({
     id: -1,
     nombre: 'Test',
+    caracteristicas: [
+        {
+            campo: 'Altura', valor: 1.0,
+        },
+    ],
+    imagen: 'https://picsum.photos/200'
 });
-
-// let pokemon_id = document.getElementById('pokemon_id');
-// let pokemon_name = document.getElementById('pokemon_name');
-// let pokemon_data = document.getElementById('pokemon_data');
-// let alert = document.getElementById('error');
 
 function cargarDatos() {
 
@@ -29,49 +30,23 @@ function cargarDatos() {
         .then(datos => {
             pokemon.id = id;
             pokemon.nombre = datos.name;
+            pokemon.caracteristicas.push({
+                campo: 'Experiencia',
+                valor: datos.base_experience
+            });
+            pokemon.caracteristicas.push({
+                campo: 'Altura',
+                valor: datos.height / 10 + ' m'
+            });
+            pokemon.caracteristicas.push({
+                campo: 'Peso',
+                valor: datos.weight / 10 + ' kg'
+            });
+            pokemon.imagen = datos.sprites.other['official-artwork'].front_default
         })
         .catch((error) => {
             console.error(error);
         });
-
-/*
-    fetch(api_url + api_endpoint + '/' + id.value)
-        .then(response => response.json())
-        .then(datos => {
-            pokemon.id = id;
-            pokemon.nombre = datos.name;
-
-            // pokemon_data.replaceChildren();
-            // pokemon_data.append(filaTabla('Experiencia', pokemon.base_experience));
-            // pokemon_data.append(filaTabla('Altura', pokemon.height / 10 + ' m'));
-            // pokemon_data.append(filaTabla('Peso', pokemon.weight / 10 + ' kg'));
-            // pokemon_data.append(filaTabla('Imagen', '<img class="artwork" alt="Artwork oficial" src="' + pokemon.sprites.other['official-artwork'].front_default + '"/>'));
-            //
-            // alert.classList.add('d-none');
-        })
-        .catch(error => {
-            // pokemon_id.textContent = '?';
-            // pokemon_name.textContent = 'Error';
-            //
-            // alert.textContent = error;
-            // alert.classList.remove('d-none');
-        });
-*/
-}
-
-function filaTabla(titulo, contenido) {
-    let tr = document.createElement('tr');
-
-    let th = document.createElement('th');
-    th.classList.add("table-dark");
-    th.textContent = titulo;
-    tr.append(th);
-
-    let td = document.createElement('td');
-    td.innerHTML = contenido;
-    tr.append(td);
-
-    return tr;
 }
 
 const boton_menos = () => {
@@ -112,6 +87,14 @@ watch(id, () => {
     <div class="table-responsive mt-4">
         <table class="table table-hover border">
             <tbody id="pokemon_data" class="align-middle">
+            <tr v-for="(caracteristica, index) of pokemon.caracteristicas" :key="index">
+                <th class="table-dark">{{ caracteristica.campo }}</th>
+                <td>{{ caracteristica.valor }}</td>
+            </tr>
+            <tr>
+                <th class="table-dark">Imagen</th>
+                <td><img class="artwork" alt="Artwork oficial" :src="pokemon.imagen"/></td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -119,5 +102,7 @@ watch(id, () => {
 </template>
 
 <style scoped>
-
+.artwork {
+    height: 200px;
+}
 </style>
