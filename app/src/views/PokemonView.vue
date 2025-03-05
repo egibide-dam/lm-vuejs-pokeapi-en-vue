@@ -47,7 +47,7 @@ function cargarDatos() {
             pokemon.imagen = datos.sprites.other['official-artwork'].front_default
         })
         .catch((error) => {
-            console.error(error);
+            pokemon.error = error;
         });
 }
 
@@ -92,22 +92,24 @@ watch(id, () => {
             </div>
         </div>
         <div class="col-12 col-md-9 ps-md-3 pt-3 pt-md-0">
-            <h2 class="display-2 text-capitalize">{{ pokemon.nombre }}</h2>
-            <div class="table-responsive">
-                <table class="table table-hover border">
-                    <tbody id="pokemon_data" class="align-middle">
-                    <tr v-for="(caracteristica, index) of pokemon.caracteristicas" :key="index">
-                        <th class="table-dark">{{ caracteristica.campo }}</th>
-                        <td>{{ caracteristica.valor }}</td>
-                    </tr>
-                    <tr>
-                        <th class="table-dark">Imagen</th>
-                        <td><img class="artwork" alt="Artwork oficial" :src="pokemon.imagen"/></td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div v-if="pokemon.id > 0">
+                <h2 class="display-2 text-capitalize">{{ pokemon.nombre }}</h2>
+                <div class="table-responsive">
+                    <table class="table table-hover border">
+                        <tbody id="pokemon_data" class="align-middle">
+                        <tr v-for="(caracteristica, index) of pokemon.caracteristicas" :key="index">
+                            <th class="table-dark">{{ caracteristica.campo }}</th>
+                            <td>{{ caracteristica.valor }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark">Imagen</th>
+                            <td><img class="artwork" alt="Artwork oficial" :src="pokemon.imagen"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <p id="error" class="d-none alert alert-danger" role="alert"></p>
+            <p v-else class="alert alert-danger" role="alert">{{ pokemon.error }}</p>
         </div>
     </div>
 </template>
