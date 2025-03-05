@@ -39,15 +39,10 @@ jobs:
           npm run build
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Construir el sitio web con Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./app/dist/
-          destination: ./app/_site
       - name: Cargar los artefactos producidos
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./app/_site
+          path: ./app/dist
 
   deploy:
     runs-on: ubuntu-latest
