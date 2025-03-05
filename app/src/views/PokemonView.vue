@@ -5,7 +5,7 @@ import axios from "axios";
 const api_url = 'https://pokeapi.co/api/v2/';
 const api_endpoint = 'pokemon';
 
-const id = ref(25);
+const id = ref(1025);
 
 const pokemon = reactive({
     id: -1,
@@ -24,6 +24,8 @@ function cargarDatos() {
         method: 'GET',
         url: api_url + api_endpoint + '/' + id.value
     };
+
+    pokemon.caracteristicas = [];
 
     axios.request(options)
         .then(response => response.data)
@@ -50,11 +52,13 @@ function cargarDatos() {
 }
 
 const boton_menos = () => {
-    id.value--;
+    if (id.value > 1)
+        id.value--;
 };
 
 const boton_mas = () => {
-    id.value++;
+    if (id.value < 1025)
+        id.value++;
 };
 
 onBeforeMount(() => cargarDatos());
@@ -66,39 +70,46 @@ watch(id, () => {
 </script>
 
 <template>
-    <div class="col-12 col-sm-6">
-        <span class="me-2">ポケモン ID:</span>
-        <button title="Anterior"
-                id="boton_menos"
-                @click="boton_menos"
-                class="btn btn-sm btn-primary">
-            <i class="bi bi-dash-lg"></i>
-        </button>
-        <span class="mx-2">{{ pokemon.id }}</span>
-        <button title="Siguiente"
-                id="boton_mas"
-                @click="boton_mas"
-                class="btn btn-sm btn-primary">
-            <i class="bi bi-plus-lg"></i>
-        </button>
+    <div class="row">
+        <div class=" col-12 col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <span class="me-2">ポケモン ID</span>
+                </div>
+                <div class="card-body d-flex justify-content-between align-items-center flex-md-wrap">
+                    <button title="Anterior"
+                            @click="boton_menos"
+                            class="btn btn-primary">
+                        <i class="bi bi-dash-lg"></i>
+                    </button>
+                    <span class="fs-2 mx-2">{{ pokemon.id }}</span>
+                    <button title="Siguiente"
+                            @click="boton_mas"
+                            class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-9 ps-md-3 pt-3 pt-md-0">
+            <h2 class="display-2 text-capitalize">{{ pokemon.nombre }}</h2>
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <tbody id="pokemon_data" class="align-middle">
+                    <tr v-for="(caracteristica, index) of pokemon.caracteristicas" :key="index">
+                        <th class="table-dark">{{ caracteristica.campo }}</th>
+                        <td>{{ caracteristica.valor }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-dark">Imagen</th>
+                        <td><img class="artwork" alt="Artwork oficial" :src="pokemon.imagen"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p id="error" class="d-none alert alert-danger" role="alert"></p>
+        </div>
     </div>
-
-    <h2 class="display-2 text-capitalize">{{ pokemon.nombre }}</h2>
-    <div class="table-responsive mt-4">
-        <table class="table table-hover border">
-            <tbody id="pokemon_data" class="align-middle">
-            <tr v-for="(caracteristica, index) of pokemon.caracteristicas" :key="index">
-                <th class="table-dark">{{ caracteristica.campo }}</th>
-                <td>{{ caracteristica.valor }}</td>
-            </tr>
-            <tr>
-                <th class="table-dark">Imagen</th>
-                <td><img class="artwork" alt="Artwork oficial" :src="pokemon.imagen"/></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <p id="error" class="d-none alert alert-danger" role="alert"></p>
 </template>
 
 <style scoped>
