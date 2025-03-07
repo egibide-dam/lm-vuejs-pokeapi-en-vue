@@ -63,9 +63,7 @@ const boton_mas = () => {
 
 onBeforeMount(() => cargarDatos());
 
-watch(id, () => {
-    cargarDatos();
-})
+watch(id, () => cargarDatos());
 
 </script>
 
